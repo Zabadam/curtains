@@ -65,17 +65,19 @@ abstract class Elevation {
 ///
 /// ```
 /// Curtains(
+///   child: ListView(
+///     children: List.generate(
+///       25,
+///       (i) => ListTile(title: Text('ListTile #: ${i+1}')),
+///     ),
+///     // scrollDirection: Axis.vertical, // default
+///   ),
 ///   elevation: 24 // defaults to 9
 ///   // axis: Axis.vertical // default
-///   child: ListView(
-///     // scrollDirection: Axis.vertical, // derfault
-///     children: List.generate(25, (i) {
-///       return ListTile(title: Text('ListTile #: ${i+1}'));
-///     }),
 ///   ),
 /// )
 /// ```
-///
+/// ___
 /// ### Fancy 📜 Curtains
 /// All the ease of positioning provided by the default constructor,
 /// but swap out the bespoke [elevation] `double` and provide one or both
@@ -94,25 +96,27 @@ abstract class Elevation {
 ///
 /// ```
 /// Curtains.fancy(
-///   axis: Axis.horizontal, // matches [ListView] initialization in child
-///   directionality: TextDirection.rtl,
-///   startBoxDecoration: const BoxDecoration(
+///   startCurtain: const BoxDecoration(
 ///     boxShadow: [BoxShadow(color: Colors.red, spreadRadius: 2, blurRadius: 4.0)],
 ///   ),
-///   endBoxDecoration: const BoxDecoration(
+///   endCurtain: const BoxDecoration(
 ///     boxShadow: [
 ///       BoxShadow(color: Colors.blue, spreadRadius: 15.0, blurRadius: 20.0, offset: Offset(0, 15)),
 ///     ],
 ///   ),
+///   axis: Axis.horizontal, // ↔ Initialize to match child
+///   // directionality: TextDirection.rtl, // Can manually trigger, but is checked by `context`
 ///   child: ListView(
-///     scrollDirection: Axis.horizontal,
-///     children: List.generate(25, (i) {
-///       return ListTile(title: Text('ListTile #: ${i+1}'));
-///     }),
+///     scrollDirection: Axis.horizontal, // ↔
+///     itemExtent: 175.0,
+///     children: List.generate(
+///       25,
+///       (i) => ListTile(title: Text('ListTile #: ${i+1}')),
+///     ),
 ///   ),
 /// )
 /// ```
-///
+/// ___
 /// ### Regal 📜 Curtains
 /// All the ease of positioning provided by the default constructor
 /// and the customization support of [Curtains.fancy], but support
@@ -121,14 +125,14 @@ abstract class Elevation {
 ///
 /// ```
 /// Curtains.regal(
-///   startBoxDecoration: const BoxDecoration(
+///   startCurtain: const BoxDecoration(
 ///     boxShadow: [BoxShadow(color: Colors.red, spreadRadius: 2, blurRadius: 4.0)],
 ///   ),
-///   endBoxDecoration: const BoxDecoration(
-///     boxShadow: [
-///       BoxShadow(color: Colors.blue, spreadRadius: 15.0, blurRadius: 20.0, offset: Offset(0, 15)),
-///     ],
+///   endCurtain: const BoxDecoration(
+///     gradient: LinearGradient(. . .), // Necessitates [Curtains.spread] "girth"
+///     boxShadow: [BoxShadow(. . .)],
 ///   ),
+///   spread: 30.0, // Add "girth" to support `gradient` in `endCurtain`
 ///   duration: const Duration(milliseconds: 450),
 ///   curve: Curves.easeOut,
 ///   child: ListView(
