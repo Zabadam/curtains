@@ -494,8 +494,8 @@ class _Curtain extends StatelessWidget {
                   widget.decoration(isStartCurtain: isStartCurtain),
                   Curtains.NILL,
                   (isVisible) ? 0 : 1),
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeOutCubic,
+              duration: widget.duration,
+              curve: widget.curve,
             )
           : Container(
               width: (widget.scrollDirection == Axis.vertical)

@@ -1,6 +1,6 @@
 name: curtains
 description: Wrap a scrollable with scrim Curtains while not at the start or end, alluding to unrevealed content.
-version: 0.9.1
+version: 0.9.2
 repository: https://github.com/Zabadam/curtains
 issue_tracker: https://github.com/Zabadam/curtains/issues
 
