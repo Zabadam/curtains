@@ -167,6 +167,7 @@ class Curtains extends StatefulWidget {
     Key? key,
     this.scrollDirection = Axis.vertical,
     this.elevation = 9.0,
+    this.clipBehavior = Clip.hardEdge,
     this.directionality,
     required this.child,
   })   : startCurtain = null,
@@ -212,6 +213,7 @@ class Curtains extends StatefulWidget {
     this.endCurtain,
     this.spread,
     this.sensitivity = const [0, 0],
+    this.clipBehavior = Clip.hardEdge,
     this.directionality,
     required this.child,
   })   : elevation = null,
@@ -258,6 +260,7 @@ class Curtains extends StatefulWidget {
     this.sensitivity = const [0, 0],
     this.duration = const Duration(milliseconds: 350),
     this.curve = Curves.easeOut,
+    this.clipBehavior = Clip.hardEdge,
     this.directionality,
     required this.child,
   })   : elevation = null,
@@ -326,6 +329,16 @@ class Curtains extends StatefulWidget {
   /// intrinsically animated over this [curve].
   final Curve curve;
 
+  /// By default this 📜 [Curtains] is [ClipRect]-ed
+  /// for easy [BoxShadow] support.
+  ///
+  /// Initialize [clipBehavior] to [Clip.none] to not render this
+  /// `ClipRect`, altering the tree depth if altered after first build.
+  ///
+  /// [Clip.antiAlias] or [Clip.antiAliasWithSaveLayer]
+  /// may be passed if absolutely necessary.
+  final Clip clipBehavior;
+
   /// The local [TextDirection]. If left `null`, then
   /// the ambient `Directionality.of(context)` is obtained.
   ///
@@ -364,6 +377,21 @@ class _CurtainsState extends State<Curtains> {
   /// with determined [BoxDecorations] to scrim the start/end.
   @override
   Widget build(BuildContext context) {
+    final curtains = Stack(
+      children: [
+        Positioned.fill(child: widget.child),
+        _Curtain(
+          this.widget,
+          isVisible: _isStartCurtainVisible,
+        ),
+        _Curtain(
+          this.widget,
+          isVisible: _isEndCurtainVisible,
+          isStartCurtain: false,
+        ),
+      ],
+    );
+
     return NotificationListener<ScrollUpdateNotification>(
       onNotification: (notification) {
         // Ensure this 📜 [Curtains] tightly wraps a scrollable child.
@@ -377,23 +405,14 @@ class _CurtainsState extends State<Curtains> {
         return false; // Allow Notification to continue bubbling.
       },
 
-      /// Crop any `Decoration`s to this 📜 [Curtains].
-      child: ClipRect(
-        child: Stack(
-          children: [
-            Positioned.fill(child: widget.child),
-            _Curtain(
-              this.widget,
-              isVisible: _isStartCurtainVisible,
-            ),
-            _Curtain(
-              this.widget,
-              isVisible: _isEndCurtainVisible,
-              isStartCurtain: false,
-            ),
-          ],
-        ),
-      ),
+      /// Crop any `Decoration`s to this 📜 [Curtains] by default,
+      /// but offer to disable this [ClipRect], altering the tree depth.
+      child: (widget.clipBehavior != Clip.none)
+          ? ClipRect(
+              clipBehavior: widget.clipBehavior,
+              child: curtains,
+            )
+          : curtains,
     );
   }
 }
@@ -461,12 +480,24 @@ class _Curtain extends StatelessWidget {
       /// `const Cubic(0, 0, 0, 0)`, whereas [Curtains.regal] is animated.
       child: (widget.curve != const Cubic(0, 0, 0, 0))
           ? AnimatedContainer(
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeOutCubic,
+              width: (widget.scrollDirection == Axis.vertical)
+                  ? _width
+                  : isVisible
+                      ? widget.spread ?? 0
+                      : 0,
+              height: (widget.scrollDirection == Axis.vertical)
+                  ? widget.spread ?? 0
+                  : isVisible
+                      ? _height
+                      : 0,
               decoration: BoxDecoration.lerp(
                   widget.decoration(isStartCurtain: isStartCurtain),
                   Curtains.NILL,
                   (isVisible) ? 0 : 1),
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.easeOutCubic,
+            )
+          : Container(
               width: (widget.scrollDirection == Axis.vertical)
                   ? _width
                   : isVisible
@@ -477,21 +508,9 @@ class _Curtain extends StatelessWidget {
                   : isVisible
                       ? _height
                       : 0,
-            )
-          : Container(
               decoration: (isVisible)
                   ? widget.decoration(isStartCurtain: isStartCurtain)
                   : Curtains.NILL,
-              width: (widget.scrollDirection == Axis.vertical)
-                  ? _width
-                  : isVisible
-                      ? widget.spread ?? 0
-                      : 0,
-              height: (widget.scrollDirection == Axis.vertical)
-                  ? widget.spread ?? 0
-                  : isVisible
-                      ? _height
-                      : 0,
             ),
     );
   }

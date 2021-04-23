@@ -12,17 +12,23 @@ void main() => runApp(CurtainsDemo());
 /// This demonstration.
 late BuildContext curtainsDemo;
 
+///     const DURATION = Duration(milliseconds: 600);
 const DURATION = Duration(milliseconds: 600);
+
+///     const CURVE = Curves.fastOutSlowIn;
 const CURVE = Curves.fastOutSlowIn;
 
 const TITLES = [
   '📜 Curtains Demo',
-  '📜 Fancy Curtains Demo: Axis.horizontal',
-  '📜 Regal Curtains Demo: Animations',
-  '📜 Regal Curtains Demo: BoxDecorations',
-  '📜 Regal Curtains Demo: Curtain Spread',
-  '📜 Regal Curtains Demo: Sensitivity',
+  '📜 Fancy Curtains: Axis.horizontal',
+  '📜 Regal Curtains: Animations',
+  '📜 Regal Curtains: BoxDecorations',
+  '📜 Regal Curtains: Curtain Spread & clipBehavior',
+  '📜 Regal Curtains: Sensitivity',
 ];
+
+/// Starts at `TITLES[0]`, '📜 Curtains Demo', but changes as the
+/// `>` IconButton over [CurrentDemo] is tapped.
 var title = TITLES[0];
 
 /// Hover in most IDEs for context tooltip
@@ -57,6 +63,7 @@ class _CurtainsDemoState extends State<CurtainsDemo> {
           appBar: AppBar(
             title: Text(title),
             automaticallyImplyLeading: false,
+            toolbarHeight: (currentDemo == -1) ? 80 : null,
           ),
           body: const CurrentDemo(),
         ),
@@ -108,9 +115,7 @@ class _CurrentDemoState extends State<CurrentDemo> {
                 HapticFeedback.vibrate();
                 currentDemo =
                     (currentDemo == DEMOS.length - 1) ? 0 : currentDemo + 1;
-                title = (currentDemo == -1)
-                    ? '📜 Curtains Demo: Source Code'
-                    : TITLES[currentDemo];
+                title = TITLES[currentDemo];
                 (curtainsDemo as Element).markNeedsBuild();
               },
             ),
@@ -131,7 +136,9 @@ class _CurrentDemoState extends State<CurrentDemo> {
               onPressed: () => setState(() {
                 HapticFeedback.vibrate();
                 currentDemo = -1;
-                title = '📜 Curtains Demo: Source Code';
+                title = '📜 Curtains Demo: Source Code\n'
+                    '🔎 Pinch to Zoom  👆 Tap and Hold to Select';
+                (curtainsDemo as Element).markNeedsBuild();
               }),
             ),
           ),
@@ -139,44 +146,51 @@ class _CurrentDemoState extends State<CurrentDemo> {
       ),
       onWillPop: () async {
         if (currentDemo == -1) {
-          setState(() => currentDemo = 0);
+          setState(() {
+            currentDemo = 0;
+            title = TITLES[0];
+            (curtainsDemo as Element).markNeedsBuild();
+          });
           return false;
         }
         var willPop = false;
         Scaffold.of(context).showBottomSheet<void>(
-          (_) => Container(
-            height: 200,
-            color: Colors.red[900],
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  const Text(
-                    'Exit 📜 Curtains Demo?',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
+          (_) => GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              height: 200,
+              color: Colors.red[900],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    const Text(
+                      'Exit 📜 Curtains Demo?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                      ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        child: const Text('\n  E X I T  \n'),
-                        onPressed: () {
-                          willPop = true;
-                          SystemChannels.platform.invokeMethod(
-                            'SystemNavigator.pop',
-                          );
-                        },
-                      ),
-                      ElevatedButton(
-                        child: const Text('\n  S T A Y  \n'),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          child: const Text('\n  E X I T  \n'),
+                          onPressed: () {
+                            willPop = true;
+                            SystemChannels.platform.invokeMethod(
+                              'SystemNavigator.pop',
+                            );
+                          },
+                        ),
+                        ElevatedButton(
+                          child: const Text('\n  S T A Y  \n'),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -296,6 +310,13 @@ class RegalCurtainsDemoHorizontal extends StatelessWidget {
   /// // is not visible without [Curtains.spread].
   /// endCurtain: buildFancyEnd(Axis.horizontal), // (explains [Axis] pass)
   /// spread: 25, // Provide "girth" to [_Curtain]s for [Gradient] support.
+  ///
+  /// // `BoxDecoration.gradient` clips itself, but [BoxShadows],
+  /// // which the simplest 📜 [Curtains] relies on for [Curtains.elevation],
+  /// // need a [ClipRect] in order to not overflow.
+  /// // - Manually disable clipping with [clipBehavior] initialized `Clip.none`
+  /// // - This will alter the Widget tree depth
+  /// clipBehavior: Clip.none,
   /// ```
   const RegalCurtainsDemoHorizontal({Key? key}) : super(key: key);
 
@@ -311,6 +332,11 @@ class RegalCurtainsDemoHorizontal extends StatelessWidget {
         spread: 25, // Provide "girth" to [_Curtain]s for [Gradient] support.
         duration: DURATION,
         curve: CURVE,
+        // `BoxDecoration.gradient` clips itself, but [BoxShadows],
+        // which the simplest 📜 [Curtains] relies on for [Curtains.elevation],
+        // need a [ClipRect] in order to not overflow.
+        // - Manually disable clipping with [clipBehavior] initialized `Clip.none`
+        clipBehavior: Clip.none,
         child: ListView(
           scrollDirection: Axis.horizontal,
           itemExtent: 150.0,
