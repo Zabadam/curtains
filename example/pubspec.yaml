@@ -1,0 +1,19 @@
+name: curtains_demo
+description: Demonstration of simple, fancy, and regal Curtains.
+version: 1.0.0+1
+repository: https://github.com/Zabadam/curtains/tree/main/example
+issue_tracker: https://github.com/Zabadam/curtains/issues
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  curtains:
+    path: ../
+
+flutter:
+  uses-material-design: true
