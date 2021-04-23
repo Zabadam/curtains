@@ -1,7 +1,11 @@
 # 📜 Curtains
-Wrap a scrollable with scrim Curtains while not at the start or end, alluding to unrevealed content.
+![](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/Curtains.png)
 
-## [Reference](https://pub.dev/documentation/curtains/latest/curtains/curtains-library.html)
+Wrap a scrollable with scrim 📜 `Curtains` while not at the start or end, alluding to unrevealed content.
+
+![](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/CurtainsDemo.gif 'First demo in the Example app') &nbsp; ![](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/Curtains_Code.png 'Not the exact code running in the gif next door, but it is this easy!')
+
+# [📖 Reference](https://pub.dev/documentation/curtains/latest/curtains/curtains-library.html)
 - Advanced usage with 📜 [`Curtains.fancy`](https://pub.dev/documentation/curtains/latest/curtains/Curtains-class.html) & 📜 [`Curtains.regal`](https://pub.dev/documentation/curtains/latest/curtains/Curtains-class.html)
 - [`Elevation`]'s two static methods for passing
   `elevation` through [`kElevationToShadow`]
@@ -13,8 +17,8 @@ Wrap a scrollable with scrim Curtains while not at the start or end, alluding to
 &nbsp;
 
 
-# [Example](https://github.com/Zabadam/curtains/tree/main/example)s
-## Simple 📜 Curtains
+# [🧫 Example](https://github.com/Zabadam/curtains/tree/main/example)s
+## Simple 📜 `Curtains`
 ```dart
 Widget build(BuildContext context) {
   return Curtains(
@@ -32,7 +36,7 @@ Widget build(BuildContext context) {
 > ### It's *that* easy!
 &nbsp;
 
-## Fancy 📜 Curtains
+## Fancy 📜 `Curtains`
 ```dart
 Curtains.fancy(
   /// 🕴 Default constructor 📜 [Curtains] employs `Elevation.asBoxDecoration` to
@@ -50,7 +54,11 @@ Curtains.fancy(
 > ### It's *similarly* easy!
 &nbsp;
 
-## Regal 📜 Curtains
+## Regal 📜 `Curtains`
+![](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/RegalCurtainsDemo_Sensitivity.gif 'Custom animated BoxDecoration scrim Curtains and initialized `sensitivity`')
+> ### This instance of regal 📜 `Curtains` has custom, animated BoxDecorations as well as `sensitivity` at the start and end.
+&nbsp;
+
 ```dart
 Curtains.regal(
   // If wrapping a horizontal scrollable, initialize here, too.
@@ -92,6 +100,6 @@ BoxDecoration buildCurtain({bool isStart = true}) => BoxDecoration(
 > ### But look here, and we can get pretty complex and creative.
 &nbsp;
 
-# Bugs
+# 🐞 Bugs
 One known **bug**:
 - Even with `Curtains.spread` set non-negligibly, `BoxDecoration.backgroundBlendMode` does not work correctly.
