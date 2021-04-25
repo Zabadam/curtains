@@ -1,16 +1,17 @@
-/// ## 📜 Curtains
-/// Provides 📜 [Curtains] to wrap a scrollable
-/// with scrim decorations while not at the start or end,
-/// alluding to unrevealed content.
+/// ## 📜 Curtains Library
+/// Provides super simple scrim 📜 [Curtains], or shadow decorations,
+/// by wrapping a scrollable child, alluding to unrevealed content
+/// while not at the start or end.
 ///
 /// ### Reference
-/// - Advanced usage with 📜 [Curtains.fancy] & 📜 [Curtains.regal]
-/// - [Elevation]'s two static methods for passing
-///   `double elevation` through [kElevationToShadow]
-///   - [Elevation.asBoxShadows]`(elevation)`
-///   - [Elevation.asBoxDecoration]`(elevation)`
-/// - [Curtains.NILL] for `const BoxDecoration()`
-/// - [_SensitivityList], a `List` extension for verifying a [Curtains.sensitivity]
+/// - Advanced usage with 📜 [Curtains.fancy]
+/// - Animated usage with 📜 [Curtains.regal]
+/// - [Elevation] paradigm handled by [`👥 package:shadows`](https://pub.dev/packages/shadows)
+///   - Check it out for some neat [`Box`](https://pub.dev/documentation/shadows/latest/shadows/Elevation/asBoxShadows.html)[`Shadow`](https://pub.dev/documentation/shadows/latest/shadows/BoxShadowUtils.html) [utilities](https://pub.dev/documentation/shadows/latest/shadows/BoxShadowsUtils.html) that mesh with 📜 `Curtains`
 library curtains;
+
+export 'package:flutter/widgets.dart';
+
+export 'package:shadows/shadows.dart';
 
 export 'src/curtains.dart';

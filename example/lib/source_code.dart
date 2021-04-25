@@ -1,7 +1,8 @@
 /// Demo Source Code
-library curtains;
+library curtains_demo;
 
 import 'package:flutter/material.dart';
+
 import 'package:curtains/curtains.dart';
 
 class CodeViewer extends StatelessWidget {
@@ -73,12 +74,14 @@ class SourceCode extends StatelessWidget {
     return CodeViewer(
       r'''
 /// ## 📜 Curtains Demonstration
-library curtains;
+library curtains_demo;
 
 import 'dart:math';
-import 'package:flutter/material.dart';
-import 'package:curtains/curtains.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
+
+import 'package:curtains/curtains.dart';
+
 import 'source_code.dart';
 
 void main() => runApp(CurtainsDemo());
@@ -286,7 +289,6 @@ class CurtainsDemoVertical extends StatelessWidget {
       child: Curtains(
         elevation: 24, // Consider [Material.elevation], but see [Elevation].🕴
         child: ListView(
-          itemExtent: 90.0,
           physics: const BouncingScrollPhysics(),
           children: generatedListVertical,
         ),
@@ -306,21 +308,34 @@ class FancyCurtainsDemoHorizontal extends StatelessWidget {
   /// 🕴 Default constructor 📜 [Curtains] uses
   /// [Elevation.asBoxDecoration] to render its decorations;
   /// but feel free to use these static methods, too.
+  /// - with 👥 [`package:shadows`](https://pub.dev/packages/shadows)
   const FancyCurtainsDemoHorizontal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // 🕴
+    final List<BoxShadow> _shadow = (Elevation.asBoxShadows(
+              24,
+              color: Colors.red,
+            ) +
+            const [
+              BoxShadow(color: Colors.yellow, spreadRadius: 10, blurRadius: 10),
+              BoxShadow(color: Colors.green, spreadRadius: 5, blurRadius: 25),
+            ])
+        // Material elevation `List<BoxShadow>`s have 3x shadows
+        // - Kept at Material-standard opacities with `kElevationShadowOpacityRamp`
+        // We added 2x shadows which we will now modify.
+        //
+        // (Simply demonstrating `rampOpacity` util from
+        // 👥 Shadows - https://pub.dev/packages/shadows)
+        .rampOpacity(kElevationShadowOpacityRamp + [0.2, 0.25]);
+
     return Expanded(
       child: Curtains.fancy(
         scrollDirection: Axis.horizontal, // ↔
         // directionality: TextDirection.rtl, // Manually trigger RTL 🔛
-        startCurtain: BoxDecoration(
-          boxShadow: Elevation.asBoxShadows(24).toList() // 🕴
-            ..add(
-              BoxShadow(color: Colors.red, spreadRadius: 10, blurRadius: 10),
-            ),
-        ),
-        endCurtain: Elevation.asBoxDecoration(12), // 🕴
+        startCurtain: BoxDecoration(boxShadow: _shadow),
+        endCurtain: Elevation.asBoxDecoration(12, color: Colors.purple), // 🕴
         child: ListView(
           scrollDirection: Axis.horizontal, // ↔
           itemExtent: 100.0,
@@ -346,7 +361,6 @@ class RegalCurtainsDemoVertical1 extends StatelessWidget {
         duration: DURATION, // ⏰
         curve: CURVE, // ⏰
         child: ListView(
-          itemExtent: 90.0,
           physics: const BouncingScrollPhysics(),
           children: generatedListVertical,
         ),
@@ -369,7 +383,6 @@ class RegalCurtainsDemoVertical2 extends StatelessWidget {
         duration: DURATION,
         curve: CURVE,
         child: ListView(
-          itemExtent: 90.0,
           physics: const BouncingScrollPhysics(),
           children: generatedListVertical,
         ),
@@ -439,7 +452,6 @@ class RegalCurtainsDemoVertical3 extends StatelessWidget {
         duration: DURATION,
         curve: CURVE,
         child: ListView(
-          itemExtent: 100.0,
           physics: const BouncingScrollPhysics(),
           children: generatedListVertical,
         ),
