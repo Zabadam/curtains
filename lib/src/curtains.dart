@@ -10,6 +10,8 @@
 ///   - Check it out for some neat [`Box`](https://pub.dev/documentation/shadows/latest/shadows/Elevation/asBoxShadows.html)[`Shadow`](https://pub.dev/documentation/shadows/latest/shadows/BoxShadowUtils.html) [utilities](https://pub.dev/documentation/shadows/latest/shadows/BoxShadowsUtils.html) that mesh with 📜 `Curtains`
 library curtains;
 
+import 'package:flutter/widgets.dart';
+
 import '../curtains.dart';
 
 /// ## 📜 Curtains

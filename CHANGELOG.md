@@ -1,5 +1,8 @@
 # 📜 Curtains
 ##### **WORK IN PROGRESS**
+## **[0.9.3+1] - 25 APR 21**
+- Corrected `export 'package:flutter/widgets.dart';`.
+
 ## **[0.9.3] - 24 APR 21**
 - Divided package into two separate entities:
   - First is [`📜 Curtains`](https://pub.dev/packages/curtains), this package, for super simple scroll scrims.
