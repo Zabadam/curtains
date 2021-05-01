@@ -1,5 +1,8 @@
 # 📜 Curtains
 ##### **WORK IN PROGRESS**
+## **[0.9.4] - 30 APR 21**
+- Added 🆕 parameters: `endCurtainInitVisible`, which should be self explanatory; and `alignment`, similarly so.
+
 ## **[0.9.3+1] - 25 APR 21**
 - Corrected `export 'package:flutter/widgets.dart';`.
 

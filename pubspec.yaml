@@ -1,6 +1,6 @@
 name: curtains
 description: Super simple scrim Curtains, or shadow decorations, by wrapping a scrollable child, alluding to unrevealed content while not at the start or end.
-version: 0.9.3+1
+version: 0.9.4
 repository: https://github.com/Zabadam/curtains
 issue_tracker: https://github.com/Zabadam/curtains/issues
 

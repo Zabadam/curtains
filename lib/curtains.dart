@@ -11,4 +11,5 @@
 library curtains;
 
 export 'package:shadows/shadows.dart';
+
 export 'src/curtains.dart';

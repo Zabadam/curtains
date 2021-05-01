@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 import 'package:curtains/curtains.dart';
+import 'package:flutter_scroll_shadow/flutter_scroll_shadow.dart';
 
 import 'source_code.dart';
 
@@ -213,6 +214,7 @@ class CurtainsDemoVertical extends StatelessWidget {
     return Expanded(
       child: Curtains(
         elevation: 24, // Consider [Material.elevation], but see [Elevation].🕴
+        // endCurtainInitVisible: false,
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: generatedListVertical,

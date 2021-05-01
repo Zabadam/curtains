@@ -12,7 +12,7 @@ library curtains;
 
 import 'package:flutter/widgets.dart';
 
-import '../curtains.dart';
+import 'package:shadows/shadows.dart';
 
 /// ## 📜 Curtains
 /// Wraps a scrollable [child] with scrim decorations
@@ -51,7 +51,7 @@ import '../curtains.dart';
 /// but swap out the bespoke [elevation] `double` and provide one or both
 /// of full-fat [BoxDecoration]s [startCurtain], [endCurtain].
 ///
-/// Leaving a `Curtain` parameter `null` will render [NILL] in that position.
+/// Leaving a `Curtain` parameter `null` will render [_NILL] in that position.
 ///
 /// With a non-negative, two-entry `List<double>` [sensitivity],
 /// the scrims of this 📜 [Curtains] will appear later and disappear sooner.
@@ -127,7 +127,7 @@ class Curtains extends StatefulWidget {
   ///
   /// The decoration used by a [_Curtain] when it is not
   /// rendering its prescribed 📜 [Curtains] decoration.
-  static const NILL = BoxDecoration();
+  static const _NILL = BoxDecoration();
 
   /// Wraps a scrollable [child] with scrim shadows
   /// while not at the start or end, alluding to unrevealed content.
@@ -148,19 +148,16 @@ class Curtains extends StatefulWidget {
   /// - Before any scrolling occurs, `end` [_Curtain] initializes visible,
   ///   even if this 📜 [Curtains] wraps a scrollable
   ///   that is not long enough to scroll.
-  ///   - If this does not fit the situation, consider 📜 [Curtains.fancy]
-  ///   with customizable `start` and `end` [_Curtain]s where respective
-  ///   [BoxDecoration]s may be controlled programmatically.
-  /// ```
-  ///   endCurtain: (_listItems.length>2) ? _curtainDecoration : Curtains.NILL
-  /// ```
+  ///   - If this does not fit the situation, consider [endCurtainInitVisible].
   const Curtains({
     Key? key,
     this.scrollDirection = Axis.vertical,
     this.elevation = 9.0,
     this.color,
+    this.endCurtainInitVisible = true,
     required this.child,
     this.clipBehavior = Clip.hardEdge,
+    this.alignment,
     this.directionality,
   })  : startCurtain = null,
         endCurtain = null,
@@ -176,7 +173,7 @@ class Curtains extends StatefulWidget {
   /// Construct `fancy` 📜 [Curtains] that require
   /// a scrollable [child] and allow for `BoxDecoration`
   /// [startCurtain] & [endCurtain] customization.
-  /// - Leaving a `Curtain` parameter `null` will render [NILL] in that position.
+  /// - Leaving a `Curtain` parameter `null` will render [_NILL] in that position.
   ///
   /// With a non-negative, two-entry `List<double>` [sensitivity],
   /// the scrims of this 📜 [Curtains] will change state
@@ -202,11 +199,7 @@ class Curtains extends StatefulWidget {
   /// - Before any scrolling occurs, `end` [_Curtain] initializes visible,
   ///   even if this 📜 [Curtains] wraps a scrollable
   ///   that is not long enough to scroll.
-  ///   - If this does not fit the situation, consider controlling
-  ///   the [endCurtain] `BoxDecoration` programmatically.
-  /// ```
-  ///   endCurtain: (_listItems.length>2) ? _curtainDecoration : Curtains.NILL
-  /// ```
+  ///   - If this does not fit the situation, consider [endCurtainInitVisible].
   /// ___
   /// - Parameter [scrollDirection] defaults to [Axis.vertical] (like [ListView]).
   ///   - Initialize this property to match the child's `scrollDirection`.
@@ -224,8 +217,10 @@ class Curtains extends StatefulWidget {
     this.endCurtain,
     this.spread,
     this.sensitivity = const [0, 0],
+    this.endCurtainInitVisible = true,
     required this.child,
     this.clipBehavior = Clip.hardEdge,
+    this.alignment,
     this.directionality,
   })  : elevation = null,
         color = null,
@@ -241,7 +236,7 @@ class Curtains extends StatefulWidget {
   /// a scrollable [child] and allow for `BoxDecoration`
   /// [startCurtain] & [endCurtain] customization, as well as
   /// [duration] & [curve] for intrinsically animated state changes.
-  /// - Leaving a `Curtain` parameter `null` will render [NILL] in that position.
+  /// - Leaving a `Curtain` parameter `null` will render [_NILL] in that position.
   ///
   /// With a non-negative, two-entry `List<double>` [sensitivity],
   /// the scrims of this 📜 [Curtains] will change state
@@ -267,11 +262,7 @@ class Curtains extends StatefulWidget {
   /// - Before any scrolling occurs, `end` [_Curtain] initializes visible,
   ///   even if this 📜 [Curtains] wraps a scrollable
   ///   that is not long enough to scroll.
-  ///   - If this does not fit the situation, consider controlling
-  ///   the [endCurtain] `BoxDecoration` programmatically.
-  /// ```
-  ///   endCurtain: (_listItems.length>2) ? _curtainDecoration : Curtains.NILL
-  /// ```
+  ///   - If this does not fit the situation, consider [endCurtainInitVisible].
   /// ___
   /// - Parameter [scrollDirection] defaults to [Axis.vertical] (like [ListView]).
   ///   - Initialize this property to match the child's `scrollDirection`.
@@ -289,8 +280,10 @@ class Curtains extends StatefulWidget {
     this.endCurtain,
     this.spread,
     this.sensitivity = const [0, 0],
+    this.endCurtainInitVisible = true,
     required this.child,
     this.clipBehavior = Clip.hardEdge,
+    this.alignment,
     this.directionality,
     this.duration = const Duration(milliseconds: 350),
     this.curve = Curves.easeOut,
@@ -302,11 +295,13 @@ class Curtains extends StatefulWidget {
   /// Use [scrollDirection] parameter to match
   /// the scrolling direction of [child].
   /// - This positions the [_Curtain]s accordingly
-  /// - Defaults to [Axis.vertical] (like [ListView])
+  /// - Defaults to [Axis.vertical], like [ListView]
   final Axis scrollDirection;
 
   /// Recreation of [Material.elevation] utilizing Flutter's native
   /// `Map<int, List<BoxShadow>` [kElevationToShadow].
+  ///
+  /// Ignored when constructing `fancy` or `regal` 📜 `Curtains`.
   ///
   /// ### That map only contains values for
   /// > ### `key`: `0, 1, 2, 3, 4, 6, 8, 9, 12, 16, 24`
@@ -328,6 +323,8 @@ class Curtains extends StatefulWidget {
   /// When using [elevation] to style this 📜 [Curtains],
   /// a [color] may be provided to stylize the Material elevation-like shadows.
   ///
+  /// Ignored when constructing `fancy` or `regal` 📜 `Curtains`.
+  ///
   /// Left `null`, default is three different `Color`s for
   /// three different [BoxShadow]s, as seen in [kElevationToShadow]:
   /// ```
@@ -339,26 +336,24 @@ class Curtains extends StatefulWidget {
   /// resultant `List<BoxShadow>`.
   ///   - Consider 👥 [`package:shadows`](https://pub.dev/packages/shadows)'s
   ///   [BoxShadowsUtils.rampOpacity] to further modify opacity.
-  ///
-  /// Ignored when constructing `fancy` or `regal` 📜 `Curtains`.
   final Color? color;
 
   /// The [BoxDecoration] to display at the start of the scrollable child
   /// when there is content behind/underneath it.
-  /// > (When the start of the scrollable has been scrolled away from.)
+  /// (When the start of the scrollable has been scrolled away from.)
   ///
-  /// Left `null`, a [Curtains.NILL] empty decoration is provided.
+  /// Left `null`, an empty decoration is provided.
   ///
-  /// Consider a `const BoxDecoration()`.
+  /// Consider a `const BoxDecoration(. . .)`.
   final BoxDecoration? startCurtain;
 
   /// The [BoxDecoration] to display at the end of the scrollable child
   /// when there is content beyond/underneath it.
-  /// > (When the end of the scrollable has not been reached.)
+  /// (When the end of the scrollable has not been reached.)
   ///
-  /// Left `null`, a [Curtains.NILL] empty decoration is provided.
+  /// Left `null`, an empty decoration is provided.
   ///
-  /// Consider a `const BoxDecoration()`.
+  /// Consider a `const BoxDecoration(. . .)`.
   final BoxDecoration? endCurtain;
 
   /// For cases where [startCurtain] or [endCurtain] necessitates
@@ -376,19 +371,27 @@ class Curtains extends StatefulWidget {
   /// With a non-negative, two-entry `List<double>` [sensitivity],
   /// the scrims of this 📜 [Curtains] will change state
   /// before the scrollable reaches a max extent.
-  /// - `sensitivity[0]` defines start [_Curtain] sensitivity
-  /// - `sensitivity[1]` defines end [_Curtain] sensitivity
+  /// - `sensitivity[0]` defines start [_Curtain] sensitivity.
+  /// - `sensitivity[1]` defines end [_Curtain] sensitivity.
   /// - Such that `sensitivity[0] == 50` will make this 📜 [Curtains]
   ///   `start`ing [_Curtain] change visibility at a point
-  ///   50px away from scrollable `start`
+  ///   50px away from scrollable `start`.
   ///
   /// Default `sensitivity` is `const [0,0]`.
   final List<double> sensitivity;
 
+  /// By default, the [endCurtain] begins visible, even before any
+  /// [ScrollUpdateNotification]s have been sent by user scroll.
+  ///
+  /// (This 📜 [Curtains] controls its visibility by `ScrollUpdateNotification`s.)
+  ///
+  /// Override initialization visibility of the `endCurtain` with this `bool`.
+  final bool endCurtainInitVisible;
+
   /// The scrollable [child] of this 📜 [Curtains].
   ///
-  /// Assumed to scroll horizontally,
-  /// otherwise initialize [scrollDirection] to `Axis.vertical`.
+  /// Assumed to scroll vertically,
+  /// otherwise initialize [scrollDirection] to `Axis.horizontal`.
   final Widget child;
 
   /// By default this 📜 [Curtains] is [ClipRect]-ed
@@ -400,6 +403,9 @@ class Curtains extends StatefulWidget {
   /// [Clip.antiAlias] or [Clip.antiAliasWithSaveLayer]
   /// may be passed if necessary.
   final Clip clipBehavior;
+
+  /// Align the [child] within the `Stack` that houses it and these [Curtains].
+  final AlignmentGeometry? alignment;
 
   /// The local [TextDirection]. If `null`, then
   /// the ambient `Directionality.of(context)` is obtained.
@@ -417,19 +423,16 @@ class Curtains extends StatefulWidget {
   /// intrinsically animated over this [duration].
   final Duration duration;
 
-  /// If [widget.elevation] is established, employ [Elevation].
+  /// If [widget.elevation] non-`null` via default constructor, employ [Elevation].
   ///
-  /// Otherwise consider [isStartCurtain]
-  /// and return appropriate [BoxDecoration] (or `null`).
-  BoxDecoration? decoration({bool isStartCurtain = true}) {
-    return (elevation != null)
-        ? Elevation.asBoxDecoration(elevation!, color: color)
-        : (isStartCurtain)
-            ? startCurtain
-            : endCurtain;
-  }
+  /// Otherwise considers [isStartCurtain], returns appropriate `BoxDecoration?`.
+  BoxDecoration? toDecoration({bool isStartCurtain = true}) =>
+      (elevation != null)
+          ? Elevation.asBoxDecoration(elevation!, color: color)
+          : (isStartCurtain)
+              ? startCurtain
+              : endCurtain;
 
-  @override
   _CurtainsState createState() => _CurtainsState();
 }
 
@@ -437,18 +440,34 @@ class _CurtainsState extends State<Curtains> {
   bool _isStartCurtainVisible = false;
   bool _isEndCurtainVisible = true; // Before any [ScrollUpdateNotification]s
 
+  void initState() {
+    super.initState();
+    // Defaults true, but may have been overridden.
+    print('${_isEndCurtainVisible = widget.endCurtainInitVisible}');
+    _isEndCurtainVisible = widget.endCurtainInitVisible;
+  }
+
   /// Render 📜 [Curtains] wrapping a scrollable whose
   /// [Position]ed [_Curtain]s, under correct circumstances, are visible
   /// with determined [BoxDecorations] to scrim the start/end.
-  @override
   Widget build(BuildContext context) {
+    // Detects `TextDirection` but can be overridden in constructors.
+    final directionality = widget.directionality ??
+        Directionality.maybeOf(context) ??
+        TextDirection.ltr;
+
     final curtains = Stack(
       children: [
-        Positioned.fill(child: widget.child),
-        _Curtain(
-          this.widget,
-          isVisible: _isStartCurtainVisible,
+        Align(
+          alignment: widget.alignment ??
+              (widget.scrollDirection == Axis.vertical
+                  ? Alignment.topCenter
+                  : directionality == TextDirection.ltr
+                      ? Alignment.centerLeft
+                      : Alignment.centerRight),
+          child: widget.child,
         ),
+        _Curtain(this.widget, isVisible: _isStartCurtainVisible),
         _Curtain(
           this.widget,
           isVisible: _isEndCurtainVisible,
@@ -464,9 +483,8 @@ class _CurtainsState extends State<Curtains> {
         // Hover over `depth` to see why.
         if (notification.depth == 0) {
           // By default, `widget.sensitivity` is `[0,0]`.
-          //
-          // `metrics.extent...` makes this super simple;
-          // no `ScrollController` required!
+          // `metrics.extent` makes this super simple.
+          // No ScrollController required!
           _isStartCurtainVisible =
               (notification.metrics.extentBefore > widget.sensitivity[0]);
           _isEndCurtainVisible =
@@ -476,8 +494,8 @@ class _CurtainsState extends State<Curtains> {
         return false; // Allow Notification to continue bubbling.
       },
 
-      /// Crop any `Decoration`s to this 📜 [Curtains] by default,
-      /// but offer to disable this [ClipRect], altering the tree depth.
+      // Crop any `Decoration`s to this 📜 [Curtains] by default,
+      // but offer to disable this [ClipRect], altering the tree depth.
       child: (widget.clipBehavior != Clip.none)
           ? ClipRect(
               clipBehavior: widget.clipBehavior,
@@ -518,13 +536,15 @@ class _Curtain extends StatelessWidget {
   /// In horizontal scenario, `top` and `bottom` obtain `0` and
   /// `left` and `right` are determined by
   /// both [isStartCurtain] *AND* [directionality] as `0` or `null`.
-  @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
     // Detects `TextDirection` but can be overridden in constructors.
-    final directionality = widget.directionality ?? Directionality.of(context);
+    final directionality = widget.directionality ??
+        Directionality.maybeOf(context) ??
+        TextDirection.ltr;
 
+    // Check for opposite axes because these `Positioned`s also size `_Curtain`s.
     return Positioned(
       top: widget.scrollDirection == Axis.vertical && isStartCurtain ||
               widget.scrollDirection == Axis.horizontal
@@ -547,8 +567,8 @@ class _Curtain extends StatelessWidget {
           ? 0
           : null,
 
-      /// [Curtains] and [Curtains.fancy] initialize [curve] to
-      /// `const Cubic(0, 0, 0, 0)`, whereas [Curtains.regal] is animated.
+      // [Curtains] and [Curtains.fancy] initialize [curve] to
+      // `const Cubic(0, 0, 0, 0)`, whereas [Curtains.regal] is animated.
       child: (widget.curve != const Cubic(0, 0, 0, 0))
           ? AnimatedContainer(
               width: (widget.scrollDirection == Axis.vertical)
@@ -561,10 +581,9 @@ class _Curtain extends StatelessWidget {
                   : isVisible
                       ? _height
                       : 0,
-              decoration: BoxDecoration.lerp(
-                  widget.decoration(isStartCurtain: isStartCurtain),
-                  Curtains.NILL,
-                  (isVisible) ? 0 : 1),
+              decoration: (isVisible)
+                  ? widget.toDecoration(isStartCurtain: isStartCurtain)
+                  : Curtains._NILL,
               duration: widget.duration,
               curve: widget.curve,
             )
@@ -580,8 +599,8 @@ class _Curtain extends StatelessWidget {
                       ? _height
                       : 0,
               decoration: (isVisible)
-                  ? widget.decoration(isStartCurtain: isStartCurtain)
-                  : Curtains.NILL,
+                  ? widget.toDecoration(isStartCurtain: isStartCurtain)
+                  : Curtains._NILL,
             ),
     );
   }
