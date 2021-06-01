@@ -1,16 +1,20 @@
-/// Demo Source Code
+/// Demo source code in a bespoke `CodeViewer` itself employing [Curtains].
 library curtains_demo;
 
 import 'package:flutter/material.dart';
 
 import 'package:curtains/curtains.dart';
 
+/// {@macro code_viewer}
 class CodeViewer extends StatelessWidget {
-  const CodeViewer(
-    this.data, {
-    Key? key,
-  }) : super(key: key);
+  /// {@template code_viewer}
+  /// An [InteractiveViewer] meant to display source code.
+  ///
+  /// Beginning and end of this scrollable use [Curtains] as shadow scrims.
+  /// {@endtemplate}
+  const CodeViewer(this.data, {Key? key}) : super(key: key);
 
+  /// A raw `String` of source code to present within this `CodeViewer`.
   final String data;
 
   @override
@@ -19,7 +23,7 @@ class CodeViewer extends StatelessWidget {
       maxScale: 4.0,
       child: DecoratedBox(
         decoration: const BoxDecoration(color: Color(0xFF3C2121)),
-        child: Curtains.regal(
+        child: Curtains(
           startCurtain: const BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -38,7 +42,7 @@ class CodeViewer extends StatelessWidget {
               )
             ],
           ),
-          sensitivity: const [15, 40],
+          sensitivity: const Sensitivity(15, 40),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.only(
@@ -57,7 +61,7 @@ class CodeViewer extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     letterSpacing: 0,
                     height: 1.5,
-                    shadows: const [Shadow(offset: Offset(0, 1))]),
+                    shadows: [Shadow(offset: Offset(0, 1))]),
               ),
             ),
           ),
@@ -67,11 +71,17 @@ class CodeViewer extends StatelessWidget {
   }
 }
 
+/// {@macro source_code}
 class SourceCode extends StatelessWidget {
+  /// {@template source_code}
+  /// Returns a `const` [CodeViewer] with a hard-coded raw `String` containing
+  /// all source code from the demonstration proper.
+  /// {@endtemplate}
   const SourceCode({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return CodeViewer(
+    return const CodeViewer(
       r'''
 /// ## 📜 Curtains Demonstration
 library curtains_demo;
@@ -84,24 +94,27 @@ import 'package:curtains/curtains.dart';
 
 import 'source_code.dart';
 
-void main() => runApp(CurtainsDemo());
-
 /// This demonstration.
 late BuildContext curtainsDemo;
 
 ///     const DURATION = Duration(milliseconds: 600);
+// ignore: constant_identifier_names
 const DURATION = Duration(milliseconds: 600);
 
 ///     const CURVE = Curves.fastOutSlowIn;
+// ignore: constant_identifier_names
 const CURVE = Curves.fastOutSlowIn;
 
+/// Ordered List of demo names.
+// ignore: constant_identifier_names
 const TITLES = [
-  '📜 Curtains Demo',
-  '📜 Fancy Curtains: Axis.horizontal',
-  '📜 Regal Curtains: Animations',
-  '📜 Regal Curtains: BoxDecorations',
-  '📜 Regal Curtains: Curtain Spread & clipBehavior',
-  '📜 Regal Curtains: Sensitivity',
+  '📜 Curtains Demo - Elevated',
+  '📜 Instant Curtains: Axis.horizontal',
+  '📜 Curtains: Animations',
+  '📜 Curtains: BoxDecorations',
+  '📜 Curtains: Curtain Spread & clipBehavior',
+  '📜 Curtains: Sensitivity',
+  '📜 Curtains: Any Decoration',
 ];
 
 /// Starts at `TITLES[0]`, '📜 Curtains Demo', but changes as the
@@ -110,20 +123,30 @@ var title = TITLES[0];
 
 /// Hover in most IDEs for context tooltip
 /// describing the significance of each Demo.
+// ignore: constant_identifier_names
 const DEMOS = [
-  CurtainsDemoVertical(),
-  FancyCurtainsDemoHorizontal(),
-  RegalCurtainsDemoVertical1(),
-  RegalCurtainsDemoVertical2(),
-  RegalCurtainsDemoHorizontal(),
-  RegalCurtainsDemoVertical3(),
+  ElevatedCurtainsDemo(),
+  InstantCurtainsDemo(),
+  CurtainsDemoVertical1(),
+  CurtainsDemoVertical2(),
+  CurtainsDemoHorizontal1(),
+  CurtainsDemoVertical3(),
+  CurtainsDemoHorizontal2(),
 ];
 
-/// Starts at `0`, [CurtainsDemoVertical], but changes as the
+/// Starts at `0`, [ElevatedCurtainsDemo], but changes as the
 /// `>` IconButton over [CurrentDemo] is tapped.
 var currentDemo = 0;
 
+void main() => runApp(const CurtainsDemo());
+
+/// {@macro curtains_demo}
 class CurtainsDemo extends StatefulWidget {
+  /// {@template curtains_demo}
+  /// A [MaterialApp] frame for this entire demonstration.
+  /// {@endtemplate}
+  const CurtainsDemo({Key? key}) : super(key: key);
+
   @override
   _CurtainsDemoState createState() => _CurtainsDemoState();
 }
@@ -149,78 +172,33 @@ class _CurtainsDemoState extends State<CurtainsDemo> {
   }
 }
 
-/// Setup the body of [CurtainsDemo] Scaffold
-/// according to the [Axis] of the [currentDemo].
-///
-/// Provides an `>` IconButton to change [currentDemo].
+/// {@macro current_demo}
 class CurrentDemo extends StatefulWidget {
+  /// {@template current_demo}
+  /// Setup the body of [CurtainsDemo] Scaffold
+  /// according to the [Axis] of the [currentDemo].
+  ///
+  /// Provides an > `IconButton` to change [currentDemo].
+  /// {@endtemplate}
   const CurrentDemo({Key? key}) : super(key: key);
+
+  @override
   _CurrentDemoState createState() => _CurrentDemoState();
 }
 
 class _CurrentDemoState extends State<CurrentDemo> {
   @override
   Widget build(BuildContext context) {
+    final isHorizontal =
+        (currentDemo != 1 && currentDemo != 4 && currentDemo != 6);
+
     final children = <Widget>[
-      (currentDemo != 1 && currentDemo != 4)
-          ? HEADER_VERTICAL
-          : HEADER_HORIZONTAL,
+      isHorizontal ? headerVertical : headerHorizontal,
       DEMOS[(currentDemo == -1) ? 0 : currentDemo],
-      (currentDemo != 1 && currentDemo != 4)
-          ? FOOTER_VERTICAL
-          : FOOTER_HORIZONTAL,
+      isHorizontal ? footerVertical : footerHorizontal,
     ];
 
     return WillPopScope(
-      child: Stack(
-        children: <Widget>[
-          (currentDemo == -1)
-              ? const SourceCode()
-              : (currentDemo != 1 && currentDemo != 4)
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: children,
-                    )
-                  : Row(children: children),
-          IconButton(
-            icon: Icon(Icons.arrow_forward_ios),
-            color: (currentDemo == -1) ? Colors.white : Colors.black,
-            iconSize: 70,
-            onPressed: () => setState(
-              () {
-                HapticFeedback.vibrate();
-                currentDemo =
-                    (currentDemo == DEMOS.length - 1) ? 0 : currentDemo + 1;
-                title = TITLES[currentDemo];
-                (curtainsDemo as Element).markNeedsBuild();
-              },
-            ),
-          ),
-          Positioned(
-            top: 0,
-            right: (currentDemo != 1 && currentDemo != 4)
-                ? (currentDemo == -1)
-                    ? -1920
-                    : 16
-                : -4,
-            child: IconButton(
-              icon: Icon(Icons.code),
-              color: (currentDemo != 1 && currentDemo != 4)
-                  ? Colors.red
-                  : Colors.blue,
-              iconSize: (currentDemo != 1 && currentDemo != 4) ? 70 : 50,
-              onPressed: () => setState(() {
-                HapticFeedback.vibrate();
-                currentDemo = -1;
-                title = '📜 Curtains Demo: Source Code\n'
-                    '🔎 Pinch to Zoom  👆 Tap and Hold to Select';
-                (curtainsDemo as Element).markNeedsBuild();
-              }),
-            ),
-          ),
-        ],
-      ),
       onWillPop: () async {
         if (currentDemo == -1) {
           setState(() {
@@ -252,17 +230,17 @@ class _CurrentDemoState extends State<CurrentDemo> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
-                          child: const Text('\n  E X I T  \n'),
                           onPressed: () {
                             willPop = true;
                             SystemChannels.platform.invokeMethod(
                               'SystemNavigator.pop',
                             );
                           },
+                          child: const Text('\n  E X I T  \n'),
                         ),
                         ElevatedButton(
-                          child: const Text('\n  S T A Y  \n'),
                           onPressed: () => Navigator.pop(context),
+                          child: const Text('\n  S T A Y  \n'),
                         ),
                       ],
                     ),
@@ -274,20 +252,68 @@ class _CurrentDemoState extends State<CurrentDemo> {
         );
         return willPop;
       },
+      child: Stack(
+        children: <Widget>[
+          (currentDemo == -1)
+              ? const SourceCode()
+              : isHorizontal
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: children,
+                    )
+                  : Row(children: children),
+          IconButton(
+            icon: const Icon(Icons.arrow_forward_ios),
+            color: (currentDemo == -1) ? Colors.white : Colors.black,
+            iconSize: 70,
+            onPressed: () => setState(
+              () {
+                HapticFeedback.vibrate();
+                currentDemo =
+                    (currentDemo == DEMOS.length - 1) ? 0 : currentDemo + 1;
+                title = TITLES[currentDemo];
+                (curtainsDemo as Element).markNeedsBuild();
+              },
+            ),
+          ),
+          Positioned(
+            top: 0,
+            right: isHorizontal
+                ? (currentDemo == -1)
+                    ? -1920
+                    : 16
+                : -4,
+            child: IconButton(
+              icon: const Icon(Icons.code),
+              color: isHorizontal ? Colors.red : Colors.blue,
+              iconSize: isHorizontal ? 70 : 50,
+              onPressed: () => setState(() {
+                HapticFeedback.vibrate();
+                currentDemo = -1;
+                title = '📜 Curtains Demo: Source Code\n'
+                    '🔎 Pinch to Zoom  👆 Tap and Hold to Select';
+                (curtainsDemo as Element).markNeedsBuild();
+              }),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
 /// 🕴 Consider [Material.elevation], but see [Elevation].
-class CurtainsDemoVertical extends StatelessWidget {
+class ElevatedCurtainsDemo extends StatelessWidget {
   /// 🕴 Consider [Material.elevation], but see [Elevation].
-  const CurtainsDemoVertical({Key? key}) : super(key: key);
+  const ElevatedCurtainsDemo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Curtains(
+      child: Curtains.elevated(
         elevation: 24, // Consider [Material.elevation], but see [Elevation].🕴
+        // endCurtainInitVisible: false,
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: generatedListVertical,
@@ -297,33 +323,33 @@ class CurtainsDemoVertical extends StatelessWidget {
   }
 }
 
-class FancyCurtainsDemoHorizontal extends StatelessWidget {
-  /// ↔ When instantiating, 📜 [Curtains] may be created
-  /// on the [Axis.horizontal] if it needs to match a
-  /// horizontally-scrolling `child`.
+/// {@macro instant_curtains}
+class InstantCurtainsDemo extends StatelessWidget {
+  /// {@template instant_curtains}
+  /// ↔ When instantiating, 📜 [Curtains] may be created on [Axis.horizontal]
+  /// if they need to match a horizontally-scrolling `child`.
   ///
-  /// 🔛 [Curtains.directionality] can manually
-  /// trigger RTL (but Curtains does check).
+  /// 🔛 [Curtains.textDirection] can manually trigger RTL
+  /// (but Curtains does check).
   ///
-  /// 🕴 Default constructor 📜 [Curtains] uses
+  /// 🕴 Simple constructor 📜 [Curtains.elevated] uses
   /// [Elevation.asBoxDecoration] to render its decorations;
   /// but feel free to use these static methods, too.
   /// - with 👥 [`package:shadows`](https://pub.dev/packages/shadows)
-  const FancyCurtainsDemoHorizontal({Key? key}) : super(key: key);
+  /// {@endtemplate}
+  const InstantCurtainsDemo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // 🕴
-    final List<BoxShadow> _shadow = (Elevation.asBoxShadows(
-              24,
-              color: Colors.red,
-            ) +
+    final _shadow = (Elevation.asBoxShadows(24, color: Colors.red) +
             const [
               BoxShadow(color: Colors.yellow, spreadRadius: 10, blurRadius: 10),
               BoxShadow(color: Colors.green, spreadRadius: 5, blurRadius: 25),
             ])
         // Material elevation `List<BoxShadow>`s have 3x shadows
-        // - Kept at Material-standard opacities with `kElevationShadowOpacityRamp`
+        // - Kept at Material-standard opacities
+        //   with `kElevationShadowOpacityRamp`
         // We added 2x shadows which we will now modify.
         //
         // (Simply demonstrating `rampOpacity` util from
@@ -331,7 +357,7 @@ class FancyCurtainsDemoHorizontal extends StatelessWidget {
         .rampOpacity(kElevationShadowOpacityRamp + [0.2, 0.25]);
 
     return Expanded(
-      child: Curtains.fancy(
+      child: Curtains.instant(
         scrollDirection: Axis.horizontal, // ↔
         // directionality: TextDirection.rtl, // Manually trigger RTL 🔛
         startCurtain: BoxDecoration(boxShadow: _shadow),
@@ -347,15 +373,18 @@ class FancyCurtainsDemoHorizontal extends StatelessWidget {
   }
 }
 
-class RegalCurtainsDemoVertical1 extends StatelessWidget {
-  /// ⏰ [Curtains.regal] has intrinsic animation support.
+/// {@macro vertical1}
+class CurtainsDemoVertical1 extends StatelessWidget {
+  /// {@template vertical1}
+  /// ⏰ [Curtains] has intrinsic animation support.
   /// Provide `duration` and/or `curve` or let 📜 [Curtains] default.
-  const RegalCurtainsDemoVertical1({Key? key}) : super(key: key);
+  /// {@endtemplate}
+  const CurtainsDemoVertical1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Curtains.regal(
+      child: Curtains(
         startCurtain: Elevation.asBoxDecoration(12), // 🕴
         endCurtain: BoxDecoration(boxShadow: Elevation.asBoxShadows(24)), // 🕴
         duration: DURATION, // ⏰
@@ -369,17 +398,20 @@ class RegalCurtainsDemoVertical1 extends StatelessWidget {
   }
 }
 
-class RegalCurtainsDemoVertical2 extends StatelessWidget {
-  /// 🌈 [Curtains.fancy] and [Curtains.regal] support
+/// {@macro vertical2}
+class CurtainsDemoVertical2 extends StatelessWidget {
+  /// {@template vertical2}
+  /// [Curtains] and [Curtains.instant] support
   /// full-fat [BoxDecoration]s in lieu of `elevation`.
-  const RegalCurtainsDemoVertical2({Key? key}) : super(key: key);
+  /// {@endtemplate}
+  const CurtainsDemoVertical2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Curtains.regal(
-        startCurtain: FANCY_START, // 🌈
-        endCurtain: buildFancyEnd(), // 🌈
+      child: Curtains(
+        startCurtain: startCurtain, // 🌈
+        endCurtain: buildEndCurtain(), // 🌈
         duration: DURATION,
         curve: CURVE,
         child: ListView(
@@ -391,38 +423,42 @@ class RegalCurtainsDemoVertical2 extends StatelessWidget {
   }
 }
 
-class RegalCurtainsDemoHorizontal extends StatelessWidget {
+/// {@macro horizontal1}
+class CurtainsDemoHorizontal1 extends StatelessWidget {
+  /// {@template horizontal1}
   /// ```
-  /// // [buildFancyEnd] has a `gradient` that
-  /// // is not visible without [Curtains.spread].
+  /// /// `buildEndCurtain` has a `gradient` that is not visible
+  /// /// without [Curtains.spread].
   /// endCurtain: buildFancyEnd(Axis.horizontal), // (explains [Axis] pass)
   /// spread: 25, // Provide "girth" to [_Curtain]s for [Gradient] support.
   ///
-  /// // `BoxDecoration.gradient` clips itself, but [BoxShadows],
-  /// // which the simplest 📜 [Curtains] relies on for [Curtains.elevation],
-  /// // need a [ClipRect] in order to not overflow.
-  /// // - Manually disable clipping with [clipBehavior] initialized `Clip.none`
-  /// // - This will alter the Widget tree depth
+  /// /// `BoxDecoration.gradient` clips itself but [BoxShadows], which the
+  /// /// simple 📜 [Curtains.elevated] relies on for [Curtains.elevation],
+  /// /// need a [ClipRect] in order to not overflow visually.
+  /// /// - Manually disable clipping with [clipBehavior] set `Clip.none`
   /// clipBehavior: Clip.none,
   /// ```
-  const RegalCurtainsDemoHorizontal({Key? key}) : super(key: key);
+  /// {@endtemplate}
+  const CurtainsDemoHorizontal1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Curtains.regal(
+      child: Curtains(
         scrollDirection: Axis.horizontal,
-        startCurtain: FANCY_START,
-        // [buildFancyEnd] has a `gradient` that
-        // is not visible without [Curtains.spread].
-        endCurtain: buildFancyEnd(Axis.horizontal), // (explains [Axis] pass)
+        startCurtain: startCurtain,
+
+        /// `buildEndCurtain` has a `gradient` that is not visible
+        /// without [Curtains.spread].
+        endCurtain: buildEndCurtain(Axis.horizontal), // (explains [Axis] pass)
         spread: 25, // Provide "girth" to [_Curtain]s for [Gradient] support.
         duration: DURATION,
         curve: CURVE,
-        // `BoxDecoration.gradient` clips itself, but [BoxShadows],
-        // which the simplest 📜 [Curtains] relies on for [Curtains.elevation],
-        // need a [ClipRect] in order to not overflow.
-        // - Manually disable clipping with [clipBehavior] initialized `Clip.none`
+
+        /// `BoxDecoration.gradient` clips itself but [BoxShadows], which the
+        /// simple 📜 [Curtains.elevated] relies on for [Curtains.elevation],
+        /// need a [ClipRect] in order to not overflow visually.
+        /// - Manually disable clipping with [clipBehavior] set `Clip.none`
         clipBehavior: Clip.none,
         child: ListView(
           scrollDirection: Axis.horizontal,
@@ -435,20 +471,23 @@ class RegalCurtainsDemoHorizontal extends StatelessWidget {
   }
 }
 
-class RegalCurtainsDemoVertical3 extends StatelessWidget {
-  /// ⚖ With a two-entry `List<double>` [Curtains.sensitivity],
+/// {@macro vertical3}
+class CurtainsDemoVertical3 extends StatelessWidget {
+  /// {@template vertical3}
+  /// ⚖ With a `Sensitivity` [Curtains.sensitivity],
   /// the 📜 [Curtains] scrims will appear later and disappear sooner.
-  const RegalCurtainsDemoVertical3({Key? key}) : super(key: key);
+  /// {@endtemplate}
+  const CurtainsDemoVertical3({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Curtains.regal(
-        startCurtain: FANCY_START,
-        endCurtain: buildFancyEnd(),
-        // ⚖ `start` appears once scrolled `350` px beyond start
-        // ⚖ `end` appears once scrolled `175` px beyond end
-        sensitivity: const [350.0, 175.0], // ⚖
+      child: Curtains(
+        startCurtain: startCurtain,
+        endCurtain: buildEndCurtain(),
+        // `start` appears once scrolled `350` px beyond start
+        // `end` appears once scrolled `175` px beyond end
+        sensitivity: const Sensitivity(350.0, 175.0),
         duration: DURATION,
         curve: CURVE,
         child: ListView(
@@ -460,27 +499,77 @@ class RegalCurtainsDemoVertical3 extends StatelessWidget {
   }
 }
 
-const FANCY_START = BoxDecoration(
-  boxShadow: [
-    BoxShadow(
-      color: Color(0xFFFF0000),
-      spreadRadius: 1.0,
-      blurRadius: 5.0,
-    ),
-    BoxShadow(
-      color: Color(0xBBFF0000),
-      spreadRadius: 10.0,
-      blurRadius: 30.0,
-    ),
-    BoxShadow(
-      color: Color(0x66FF0000),
-      spreadRadius: 25.0,
-      blurRadius: 150.0,
-    ),
-  ],
-);
+/// {@macro horizontal2}
+class CurtainsDemoHorizontal2 extends StatelessWidget {
+  /// {@template horizontal2}
+  /// The `startCurtain` and `endCurtain` fields accept more than just
+  /// [BoxDecoration]s. Any old [Decoration] will do!
+  /// {@endtemplate}
+  const CurtainsDemoHorizontal2({Key? key}) : super(key: key);
 
-BoxDecoration buildFancyEnd([Axis? axis]) => BoxDecoration(
+  @override
+  Widget build(BuildContext context) {
+    Decoration buildCurtain({isStart = true}) => ShapeDecoration(
+          shadows: [
+            BoxShadow(
+              color: const Color(0xAA000000),
+              spreadRadius: -15,
+              blurRadius: 100,
+              offset: Offset(isStart ? -75 : 75, 0),
+            )
+          ],
+          image: DecorationImage(
+            image: isStart
+                ? const NetworkImage('https://i.imgur.com/kvtuWIe.png')
+                : const NetworkImage('https://i.imgur.com/hYyYJ0I.png'),
+            alignment: Alignment.topCenter,
+          ),
+
+          /// Demonstrative
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.elliptical(0, 500)),
+          ),
+        );
+
+    return Expanded(
+      child: Curtains(
+        scrollDirection: Axis.horizontal,
+        startCurtain: buildCurtain(),
+        endCurtain: buildCurtain(isStart: false),
+        // spread: 167, // real horizontal resolution
+        spread: 100,
+        duration: DURATION,
+        curve: CURVE,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          children: generatedListHorizontal,
+        ),
+      ),
+    );
+  }
+}
+
+///
+Container buildLeading(Axis axis, int i) => Container(
+      decoration: BoxDecoration(
+          color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
+          border: Border.all(color: Colors.black, width: 2.0)),
+      width: (axis == Axis.vertical) ? 50.0 : 75.0,
+      height: (axis == Axis.vertical) ? 50.0 : 75.0,
+      child: Text(
+        '${i + 1}',
+        style: TextStyle(
+          fontSize: (axis == Axis.vertical) ? 20 : 34,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          height: 1,
+        ),
+      ),
+    );
+
+///
+BoxDecoration buildEndCurtain([Axis? axis]) => BoxDecoration(
       // TODO: fix [backgroundBlendMode]
       // backgroundBlendMode: BlendMode.colorDodge,
       gradient: LinearGradient(
@@ -502,6 +591,28 @@ BoxDecoration buildFancyEnd([Axis? axis]) => BoxDecoration(
       ],
     );
 
+///
+const startCurtain = BoxDecoration(
+  boxShadow: [
+    BoxShadow(
+      color: Color(0xFFFF0000),
+      spreadRadius: 1.0,
+      blurRadius: 5.0,
+    ),
+    BoxShadow(
+      color: Color(0xBBFF0000),
+      spreadRadius: 10.0,
+      blurRadius: 30.0,
+    ),
+    BoxShadow(
+      color: Color(0x66FF0000),
+      spreadRadius: 25.0,
+      blurRadius: 150.0,
+    ),
+  ],
+);
+
+///
 final List<Widget> generatedListVertical = List.generate(
   35,
   (i) => Padding(
@@ -509,12 +620,13 @@ final List<Widget> generatedListVertical = List.generate(
     child: ListTile(
       tileColor: Colors.red.withOpacity(0.05),
       leading: buildLeading(Axis.vertical, i),
-      title: TITLE_VERTICAL,
-      subtitle: SUBTITLE_VERTICAL,
+      title: titleVertical,
+      subtitle: subtitleVertical,
     ),
   ),
 );
 
+///
 final List<Widget> generatedListHorizontal = List.generate(
   35,
   (i) => Padding(
@@ -526,81 +638,63 @@ final List<Widget> generatedListHorizontal = List.generate(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           buildLeading(Axis.horizontal, i),
-          TITLE_HORIZONTAL,
-          SUBTITLE_HORIZONTAL,
+          titleHorizontal,
+          subtitleHorizontal,
         ],
       ),
     ),
   ),
 );
 
-Container buildLeading(Axis axis, int i) => Container(
-      decoration: BoxDecoration(
-          color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          border: Border.all(color: Colors.black, width: 2.0)),
-      width: (axis == Axis.vertical) ? 50.0 : 75.0,
-      height: (axis == Axis.vertical) ? 50.0 : 75.0,
-      child: Text(
-        '${i + 1}',
-        style: TextStyle(
-          fontSize: (axis == Axis.vertical) ? 20 : 34,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-          height: 1,
-        ),
-      ),
-    );
+///
+const titleVertical = Text('Foo Bar Boo Baz', style: TextStyle(fontSize: 20));
 
-const TITLE_VERTICAL = Text(
-  'Foo Bar Boo Baz',
-  style: TextStyle(fontSize: 20),
-);
+///
+const subtitleVertical = Text('Lorem ipsum dolor sit amet');
 
-const SUBTITLE_VERTICAL = Text('Lorem ipsum dolor sit amet');
-
-const TITLE_HORIZONTAL = Text(
+///
+const titleHorizontal = Text(
   'Foo\nBar\nBoo\nBaz',
   textAlign: TextAlign.center,
   style: TextStyle(fontSize: 36),
 );
 
-const SUBTITLE_HORIZONTAL = Text(
+///
+const subtitleHorizontal = Text(
   '\nLorem\nipsum\ndolor\nsit\namet\nlorem\nipsum\ndolor\nsit\namet',
   textAlign: TextAlign.center,
   style: TextStyle(fontSize: 22),
 );
 
-const STYLE = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
+///
+const style = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 
-const HEADER_VERTICAL = SizedBox(
+///
+const headerVertical = SizedBox(
   height: 90,
   child: DecoratedBox(
     decoration: BoxDecoration(color: Color(0x44FF0000)),
     child: Align(
       alignment: Alignment.center,
-      child: Text(
-        'Vertical ListView 👤 Header',
-        style: STYLE,
-      ),
+      child: Text('Vertical ListView 👤 Header', style: style),
     ),
   ),
 );
 
-const FOOTER_VERTICAL = SizedBox(
+///
+const footerVertical = SizedBox(
   height: 60,
   child: DecoratedBox(
     decoration: BoxDecoration(color: Color(0x4400C3FF)),
     child: Align(
       alignment: Alignment.center,
-      child: Text(
-        'Vertical ListView 🦶 Footer',
-        style: STYLE,
-      ),
+      child: Text('Vertical ListView 🦶 Footer', style: style),
     ),
   ),
 );
 
-const HEADER_HORIZONTAL = SizedBox(
+///
+const headerHorizontal = SizedBox(
   width: 80,
   child: DecoratedBox(
     decoration: BoxDecoration(color: Color(0x44FF0000)),
@@ -609,13 +703,14 @@ const HEADER_HORIZONTAL = SizedBox(
         'H\nO\nR\nI\nZ\nO\nN\nT\nA\nL\n\n'
         '👤\n\nH\nE\nA\nD\nE\nR',
         textAlign: TextAlign.center,
-        style: STYLE,
+        style: style,
       ),
     ),
   ),
 );
 
-const FOOTER_HORIZONTAL = SizedBox(
+///
+const footerHorizontal = SizedBox(
   width: 60,
   child: DecoratedBox(
     decoration: BoxDecoration(color: Color(0x4400C3FF)),
@@ -624,96 +719,11 @@ const FOOTER_HORIZONTAL = SizedBox(
         'H\nO\nR\nI\nZ\nO\nN\nT\nA\nL\n\n'
         '🦶\n\nF\nO\nO\nT\nE\nR',
         textAlign: TextAlign.center,
-        style: STYLE,
+        style: style,
       ),
     ),
   ),
 );
-
-
-
-🍀🍀🍀
-
-
-
-
-/// Demo Source Code
-library curtains;
-
-import 'package:flutter/material.dart';
-import 'package:curtains/curtains.dart';
-
-class CodeViewer extends StatelessWidget {
-  const CodeViewer(
-    this.data, {
-    Key? key,
-  }) : super(key: key);
-
-  final String data;
-
-  @override
-  Widget build(BuildContext context) {
-    return InteractiveViewer(
-      maxScale: 4.0,
-      child: DecoratedBox(
-        decoration: const BoxDecoration(color: Color(0xFF3C2121)),
-        child: Curtains.regal(
-          startCurtain: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x44FF4444),
-                spreadRadius: 20,
-                blurRadius: 40,
-              )
-            ],
-          ),
-          endCurtain: const BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xAA990000),
-                spreadRadius: 20,
-                blurRadius: 40,
-              )
-            ],
-          ),
-          sensitivity: const [15, 40],
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(
-              left: 75,
-              top: 15,
-              right: 15,
-              bottom: 15,
-            ),
-            child: SelectableText.rich(
-              TextSpan(
-                text: data,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontFamily: 'monospace',
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0,
-                    height: 1.5,
-                    shadows: const [Shadow(offset: Offset(0, 1))]),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SourceCode extends StatelessWidget {
-  const SourceCode({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return CodeViewer(
-      ' /* this page */  ',
-    );
-  }
-}
   ''',
     );
   }

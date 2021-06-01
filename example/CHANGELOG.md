@@ -1,7 +1,12 @@
 # 📜 Curtains Demo
+## **[1.0.3+4] - 31 MAY 21**
+### **Curtains [0.10.0]**
+- Updated references to new names.
+
 ## **[1.0.2+3] - 24 APR 21**
 ### **Curtains [0.9.3]**
-- Seeing as 👥 [`package:shadows`](https://pub.dev/packages/shadows) is included with the Example app, show it off a bit in the second demo.
+- Seeing as 👥 [`package:shadows`](https://pub.dev/packages/shadows) is
+  included with the Example app, show it off a bit in the second demo.
 
 ## **[1.0.1+2] - 23 APR 21**
 ### **Curtains [0.9.1]**

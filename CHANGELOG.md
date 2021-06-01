@@ -1,5 +1,25 @@
 # 📜 Curtains
 ##### **WORK IN PROGRESS**
+## **[0.10.0] - 31 MAY 21**
+- Code and documentation cleanup.
+- Constructor and parameter alterations:
+  
+> | <h3 style='color:green'>**[0.10.0] (now)**</h3> |   ⬅️   | <h3 style='color:red'>**[0.9.4+1] (before)**</h3> | \|   | <h3 style='color:green'>**[0.10.0] (now)**</h3> | ⬅️    | <h3 style='color:red'>**[0.9.4+1] (before)**</h3> |
+> | :---------------------------------------------- | :---: | :------------------------------------------------ | :--- | :---------------------------------------------- | :--- | :------------------------------------------------ |
+> | `Curtains`                                      |       | `Curtains.regal`                                  | \|   | `Sensitivity sensitivity`                       |      | `List<double> sensitivity`                        |
+> | `Curtains.instant`                              |       | `Curtains.fancy`                                  | \|   | `TextDirection textDirection`                   |      | `TextDirection directionality`                    |
+> | `Curtains.elevated`                             |       | `Curtains`                                        | \|   | `bool endInitVisible` ⭐                         |      | `bool endCurtainInitVisible`                      |
+> 
+> ⭐ Also now available is `bool startInitVisible`.
+> <br /><br />
+> Furthermore either `startCurtain` or `endCurtain` [now accepts a more
+> abstract `Decoration?`](https://pub.dev/packages/curtains/#any-decoration) \
+> as opposed to the restriction to `BoxDecoration?`.
+<br />
+
+## **[0.9.4+1] - 04 MAY 21**
+- Removed erroneous `print()`
+
 ## **[0.9.4] - 30 APR 21**
 - Added 🆕 parameters: `endCurtainInitVisible`, which should be self explanatory; and `alignment`, similarly so.
 

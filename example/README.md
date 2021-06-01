@@ -8,11 +8,10 @@ Wrap a scrollable with scrim 📜 `Curtains` while not at the start or end, allu
 
 # 📖 Reference
 Peruse the [📜 `Curtains` pub.dev documention](https://pub.dev/documentation/curtains/latest/curtains/curtains-library.html 'pub.dev Documentation') for a full breakdown.
-- Advanced usage with 📜 [`Curtains.fancy`](https://pub.dev/documentation/curtains/latest/curtains/Curtains/Curtains.fancy.html 'pub.dev Documentation')
-- Animated usage with 📜 [`Curtains.regal`](https://pub.dev/documentation/curtains/latest/curtains/Curtains/Curtains.regal.html 'pub.dev Documentation')
-- This is simple package to use, but it is also a package that was easy to implement.
-  - It is overly documented so that any beginners may learn from its code.
-  - Utilizes a simple `NotificationListener` in lieu of `ScrollController`, which were both elusive when starting with Flutter.
+
+This is simple package to use, but it is also a package that was easy to implement.
+- It is overly documented so that any beginners may learn from its code.
+- Utilizes a simple `NotificationListener` in lieu of `ScrollController`, which were both elusive when starting with Flutter.
 
 ## 🕴 Elevation
 The [`Elevation`](https://pub.dev/documentation/shadows/latest/shadows/Elevation-class.html) paradigm is handled by [`👥 package:shadows`](https://pub.dev/packages/shadows)

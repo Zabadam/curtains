@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#BB2222",
     "theme_color": "#FF0000",
-    "description": "Example usage of both simple and regal 📜 Curtains.",
+    "description": "Example usage of both Flutter package 📜 Curtains.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
