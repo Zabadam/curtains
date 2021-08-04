@@ -39,15 +39,18 @@ Wrap a scrollable with scrim 📜 `Curtains` while not at the start or end, allu
 
 ## 📚 Table of Contents
 - 📜 [Curtains](#-curtains)
-- 🧫 [Examples](#-examples)
-  - [Elevated 📜 `Curtains`](#elevated--curtains)
-  - [Instant 📜 `Curtains`](#instant--curtains)
-  - [Animated 📜 `Curtains`](#animated--curtains)
-- 📖 [Reference](#-reference)
-  - 🕴 [Elevation](#-elevation)
-  - [Any `Decoration`](#any-decoration)
-- 🐞 [Bugs](#-bugs)
-- 🐸 [More by Zaba](#-zabaapp--simple-packages-simple-names)
+- 🧫 [Examples](#-examples-table-of-contents-scroll-up-to--table-of-contents)
+  - [Elevated 📜 `Curtains`](#elevated--curtains-table-of-contents-scroll-up-to--table-of-contents)
+  - [Instant 📜 `Curtains`](#instant--curtains-table-of-contents-scroll-up-to--table-of-contents)
+  - [Animated 📜 `Curtains`](#animated--curtains-table-of-contents-scroll-up-to--table-of-contents)
+- 📖 [Reference](#-reference-table-of-contents-scroll-up-to--table-of-contents)
+  - 🕴 [Elevation](#-elevation-table-of-contents-scroll-up-to--table-of-contents)
+  - [Any `Decoration`](#any-decoration-table-of-contents-scroll-up-to--table-of-contents)
+- 🐞 [Bugs](#-bugs-table-of-contents-scroll-up-to--table-of-contents)
+- 🐸 [More by Zaba](#-zabaapp--simple-packages-simple-nameshttpspubdevpublisherszabaapppackages-other-flutter-packages-published-by-zabaapp)
+
+---
+
 # 🧫 [Examples](#-table-of-contents 'Scroll up to 📚 Table of Contents')
 See demonstrations of this Flutter package:
 - [📜 `Curtains` Demo source: `/example/lib/main.dart`](https://github.com/Zabadam/curtains/tree/main/example/lib/main.dart '📜 Curtains Demo source: `/example/lib/main.dart`')
@@ -150,7 +153,7 @@ final curtains = Curtains(
 ```
 > ### [But look here, and we can get pretty complex and creative.](https://github.com/Zabadam/curtains/blob/main/example/lib/main.dart#L390 'Penultimate demo in the Example source')
 >
-> ### [Notice the `spread` initialization for `gradient` support.](https://github.com/Zabadam/curtains/blob/main/lib/src/curtains.dart#L619 '`_Curtain` class')
+> ### [Notice the `spread` initialization for `gradient` support.](https://github.com/Zabadam/curtains/blob/main/lib/src/widgets/curtains.dart#L635 '`_Curtain` class')
 
 <br />
 
@@ -167,12 +170,9 @@ The [`Elevation`](https://pub.dev/documentation/shadows/latest/shadows/Elevation
 - Check it out for some neat [`Box`](https://pub.dev/documentation/shadows/latest/shadows/Elevation/asBoxShadows.html)[`Shadow`](https://pub.dev/documentation/shadows/latest/shadows/BoxShadowUtils.html) [utilities](https://pub.dev/documentation/shadows/latest/shadows/BoxShadowsUtils.html) that mesh with 📜 `Curtains`.
 
 ## [Any `Decoration`](#-table-of-contents 'Scroll up to 📚 Table of Contents')
-Consider something with a shape by using a `ShapeDecoration` for the curtain
-decoration field.
-
-| [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains_square.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Or maybe [supplying a `DecorationImage`](https://github.com/Zabadam/curtains/blob/main/example/lib/main.dart#L418 '/example/lib/main.dart#L418') is what you need? |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-
+| [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains_square.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Maybe [supplying a `DecorationImage`](https://github.com/Zabadam/curtains/blob/main/example/lib/main.dart#L418 '/example/lib/main.dart#L418') <br />is what you need? |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                                                                                                                                                                                                                                                                         | Or consider something with a shape by using a `ShapeDecoration` <br />for the curtain decoration field.                                                               |
 
 # 🐞 [Bugs](#-table-of-contents 'Scroll up to 📚 Table of Contents')
 One known **bug**:
@@ -195,10 +195,9 @@ One known **bug**:
 ### Container widget that wraps many functionalities
 - ## 🌟 [surface](https://pub.dev/packages/surface 'animated, morphing container with specs for Shape, Appearance, Filter, Tactility')
 ---
-### Non-square `IconToo` + ext. `IconUtils` on `Icon`
-- ## 🙋‍♂️ [icon](https://pub.dev/packages/icon 'An extended Icon \"too\" for those that are not actually square, plus shadows support + IconUtils')
----
-### Side-kick companions, work great alone & employed above
+### Side-kick companions, work great alone or employed above
+- ## 🙋‍♂️ [icon](https://pub.dev/packages/icon 'An extended Icon \"Too\" for those that are not actually square, plus shadows support + IconUtils')
+- ## 🙋‍♂️ [img](https://pub.dev/packages/img 'An extended Image \"Too\" and DecorationImageToo that support an expanded Repeat.mirror painting mode')
 - ## 🏓 [ball](https://pub.dev/packages/ball 'a bouncy, position-mirroring splash factory that\'s totally customizable')
 - ## 👥 [shadows](https://pub.dev/packages/shadows 'convert a double-based \`elevation\` + BoxShadow and List\<BoxShadow\> extensions')
 </details>

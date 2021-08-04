@@ -13,7 +13,7 @@
 > ⭐ Also now available is `bool startInitVisible`.
 > <br /><br />
 > Furthermore either `startCurtain` or `endCurtain` [now accepts a more
-> abstract `Decoration?`](https://pub.dev/packages/curtains/#any-decoration) \
+> abstract `Decoration?`](https://pub.dev/packages/curtains/#any-decoration-table-of-contents-scroll-up-to--table-of-contents) \
 > as opposed to the restriction to `BoxDecoration?`.
 <br />
 

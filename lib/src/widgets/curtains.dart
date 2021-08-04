@@ -14,7 +14,7 @@ import '../models/sensitivity.dart';
 const _350ms = Duration(milliseconds: 350);
 
 /// ## 📜 Curtains
-/// | [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains_square_small.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Wraps a scrollable [child] with scrim decorations while not at the start or end, alluding to unrevealed content. |
+/// | [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains_square_small.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Wraps a scrollable [child] with scrim decorations while not at the start or end, alluding to unrevealed content. |
 /// |:--|:--|
 //  Wraps a scrollable [child] with scrim decorations while
 //  not at the start or end, alluding to unrevealed content.
@@ -144,7 +144,7 @@ const _350ms = Duration(milliseconds: 350);
 /// {@end-tool}
 ///
 class Curtains extends StatefulWidget {
-  /// | [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains_square_small.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Wraps a scrollable [child] with scrim decorations while not at the start or end, alluding to unrevealed content. |
+  /// | [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains_square_small.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Wraps a scrollable [child] with scrim decorations while not at the start or end, alluding to unrevealed content. |
   /// |:--|:--|
   //  Wraps a scrollable [child] with scrim decorations while
   //  not at the start or end, alluding to unrevealed content.
@@ -207,7 +207,7 @@ class Curtains extends StatefulWidget {
         color = null,
         super(key: key);
 
-  /// | [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains_square_small.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainsCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Wraps a scrollable [child] with scrim decorations while not at the start or end, alluding to unrevealed content. |
+  /// | [![images of curtains as 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains_square_small.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/curtainCurtains.gif 'images of curtains as 📜 Curtains. Click for full size.') | Wraps a scrollable [child] with scrim decorations while not at the start or end, alluding to unrevealed content. |
   /// |:--|:--|
   //  Wraps a scrollable [child] with scrim decorations while
   //  not at the start or end, alluding to unrevealed content.
@@ -301,9 +301,7 @@ class Curtains extends StatefulWidget {
   ///
   /// See class documentation for full examples: 📜 [Curtains]
   ///
-  ///
-  /// [![animated gif showing elevated 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/elevated.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/elevated.gif 'images of curtains as 📜 Curtains. Click for full size.')
-  ///
+  /// [![animated gif showing elevated 📜 Curtains](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/elevated.gif)](https://raw.githubusercontent.com/Zabadam/curtains/main/doc/elevated.gif 'Animated gif showing elevated 📜 Curtains. Since recording, elevated Curtains are now animated by default! Click for full size.')
   const Curtains.elevated({
     Key? key,
     this.scrollDirection = Axis.vertical,
